@@ -1,0 +1,82 @@
+package Coursework;
+
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import javax.servlet.http.Part;
+
+@SuppressWarnings("serial")
+public class TestFILE extends HttpServlet {
+	public static final String ATT_USER = "mailContent";
+	public static final String ATT_FORM = "form";
+	public static final String VUE = "/WEB-INF/testfile.jsp";
+	// TEST SMTP
+	public static final String VUE_FAIL = "/WEB-INF/testfile.jsp";
+	public static final String VUE_SUCCESS = "/WEB-INF/testSuccess.jsp";
+	// TEST
+	private static final String CHAMP_FILE = "file";
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Display the "send mail" interface
+		this.getServletContext().getRequestDispatcher(VUE).forward(request, response);
+	}
+
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		MailForm form = new MailForm();
+		MailContent mailContent = form.setupMail(request);
+		
+		
+		String contentType = request.getContentType();
+		System.out.println("Content type: " +contentType);
+
+		
+		//if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0)) {
+		 DataInputStream in = new DataInputStream(request.getInputStream());
+	        int formDataLength = request.getContentLength();
+	        byte dataBytes[] = new byte[formDataLength];
+	        int byteRead = 0;
+	        int totalBytesRead = 0;
+	        int k = -1;
+	        while (totalBytesRead < formDataLength) {
+	            byteRead = in.read(dataBytes, totalBytesRead, formDataLength);
+
+	            totalBytesRead += byteRead;
+	            //System.out.println(dataBytes[++k]);
+
+	        }
+	        System.out.println("Contenu: ");
+	        for (int i = 0; i < formDataLength; i++) {
+	            System.out.print((char)dataBytes[i]);
+
+	        }
+	     //} 
+		
+		
+
+		/* Stockage du formulaire et du bean dans l'objet request */
+		request.setAttribute(ATT_FORM, form);
+		request.setAttribute(ATT_USER, mailContent);
+
+		if (form.getResultat().equalsIgnoreCase("Success")) {
+			this.getServletContext().getRequestDispatcher(VUE_SUCCESS).forward(request, response);
+			@SuppressWarnings("unused")
+			SMTP testSMTP = new SMTP(mailContent);
+		} else {
+			this.getServletContext().getRequestDispatcher(VUE_FAIL).forward(request, response);
+		}
+
+	}
+
+}

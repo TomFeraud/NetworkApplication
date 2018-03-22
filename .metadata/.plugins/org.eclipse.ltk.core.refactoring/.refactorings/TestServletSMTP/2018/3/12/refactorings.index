@@ -1,0 +1,22 @@
+1521550479331	Delete element
+1521670805012	Delete element
+1521670843772	Rename type 'TestFILE'
+1521670897548	Delete element
+1521670925852	Rename resource 'testfile.jsp'
+1521671013768	Delete element
+1521672027537	Rename method 'getValeurChamp'
+1521672055329	Rename field 'CHAMP_FROM'
+1521672063204	Rename field 'CHAMP_TO'
+1521672073893	Rename field 'CHAMP_SUBJECT'
+1521672087664	Rename field 'CHAMP_FILE'
+1521672108158	Rename field 'VUE'
+1521672115754	Rename field 'VUE_FAIL'
+1521672122082	Rename field 'VUE_SUCCESS'
+1521672385338	Delete element
+1521675872121	Delete element
+1521675873996	Delete element
+1521675875720	Delete element
+1521675994618	Rename resource 'jstl-1.2.jar'
+1521676101911	Delete element
+1521677450947	Move 'form.css' to 'WEB-INF'
+1521677548293	Move 'form.css' to 'WebContent'

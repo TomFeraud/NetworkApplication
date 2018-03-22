@@ -1,0 +1,176 @@
+package Coursework;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+
+//@MultipartConfig
+public class MailForm {
+	private static final String CHAMP_FROM = "from";
+	private static final String CHAMP_TO = "to";
+	private static final String CHAMP_SUBJECT = "subject";
+	private static final String CHAMP_MESSAGE = "message";
+	private static final String CHAMP_FILE = "file";
+
+	private String resultat;
+	private Map<String, String> erreurs = new HashMap<String, String>();
+
+	public String getResultat() {
+		return resultat;
+	}
+
+	public Map<String, String> getErreurs() {
+		return erreurs;
+	}
+
+	public MailContent setupMail(HttpServletRequest request) throws IOException, ServletException {
+		String emailFrom = getValeurChamp(request, CHAMP_FROM);
+		String emailTo = getValeurChamp(request, CHAMP_TO);
+		String subject = getValeurChamp(request, CHAMP_SUBJECT);
+		String message = getValeurChamp(request, CHAMP_MESSAGE);
+
+		// THIS IS WORKING :)
+		Part part = request.getPart(CHAMP_FILE);
+		// String file = getNomFichier(part);
+		String file = "";
+		System.out.println("Part content type: " + part.getContentType()); // image/jpeg
+		System.out.println("Part name:" + part.getName()); // file
+		System.out.println("Part size : " + part.getSize()); // 5258 (OK)
+		System.out.println("Part get submitted file name: " + part.getSubmittedFileName()); // picture.jpg
+
+		if (part.getSize() != 0) {
+			InputStream inputS = part.getInputStream();
+			byte[] imageBytes = new byte[(int) part.getSize()];
+			inputS.read(imageBytes, 0, imageBytes.length);
+			inputS.close();
+
+			java.util.Base64.Encoder enc = java.util.Base64.getEncoder();
+			byte[] b = enc.encode(imageBytes);
+			file = new String(b);
+			System.out.println(file);
+		}
+
+		MailContent mailContent = new MailContent();
+
+		try {
+			validationEmail(emailFrom);
+		} catch (Exception e) {
+			setErreur(CHAMP_FROM, e.getMessage());
+		}
+		mailContent.setEmailFrom(emailFrom);
+
+		try {
+			validationEmail(emailTo);
+		} catch (Exception e) {
+			setErreur(CHAMP_TO, e.getMessage());
+		}
+		mailContent.setEmailTo(emailTo);
+
+		try {
+			validationSubject(subject);
+		} catch (Exception e) {
+			setErreur(CHAMP_SUBJECT, e.getMessage());
+		}
+		mailContent.setSubject(subject);
+
+		try {
+			validationMessage(message);
+		} catch (Exception e) {
+			setErreur(CHAMP_MESSAGE, e.getMessage());
+		}
+		mailContent.setMessage(message);
+
+		try {
+			validationFile(file);
+		} catch (Exception e) {
+			setErreur(CHAMP_FILE, e.getMessage());
+		}
+		mailContent.setFile(file);
+		mailContent.setFileContentType(fileContentType);
+		mailContent.setFileName(fileName);
+
+		if (erreurs.isEmpty()) {
+			resultat = "Success";
+		} else {
+			resultat = "Failed";
+		}
+
+		return mailContent;
+	}
+
+	private void validationEmail(String email) throws Exception {
+		if (email != null) {
+			if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
+				throw new Exception("Please enter a correct address.");
+			}
+		} else {
+			throw new Exception("Please enter an address.");
+		}
+	}
+
+	private void validationSubject(String subject) throws Exception {
+		if (subject == null || subject.equalsIgnoreCase("")) {
+			throw new Exception("Please add a subject.");
+		}
+	}
+
+	private void validationMessage(String message) throws Exception {
+		if (message != null && message.length() < 1) {
+			throw new Exception("Please enter a message > 1 char");
+		}
+	}
+
+	private void validationFile(String file) throws Exception {
+		if (file == null) {
+			throw new Exception("Error linked to the file.");
+		}
+	}
+
+	/*
+	 * Ajoute un message correspondant au champ spécifié à la map des erreurs.
+	 */
+	private void setErreur(String champ, String message) {
+		erreurs.put(champ, message);
+	}
+
+	/*
+	 * Retourne null si un champ est vide, et son contenu sinon.
+	 */
+	private static String getValeurChamp(HttpServletRequest request, String nomChamp) {
+		String valeur = request.getParameter(nomChamp);
+		if (valeur == null || valeur.trim().length() == 0) {
+			return null;
+		} else {
+			return valeur.trim();
+		}
+	}
+
+	private static String getNomFichier(Part part) {
+		/* Boucle sur chacun des paramètres de l'en-tête "content-disposition". */
+		for (String contentDisposition : part.getHeader("content-disposition").split(";")) {
+			/* Recherche de l'éventuelle présence du paramètre "filename". */
+			if (contentDisposition.trim().startsWith("filename")) {
+				/*
+				 * Si "filename" est présent, alors renvoi de sa valeur, c'est-à-dire du nom de
+				 * fichier.
+				 */
+				return contentDisposition.substring(contentDisposition.indexOf('=') + 1).trim().replace("\"", "");
+			}
+		}
+		/* Et pour terminer, si rien n'a été trouvé... */
+		return null;
+	}
+
+}

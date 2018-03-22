@@ -1,0 +1,48 @@
+package Coursework;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+
+@SuppressWarnings("serial")
+public class SendWithSMTP extends HttpServlet{
+	public static final String ATT_USER = "mailContent";
+    public static final String ATT_FORM = "form";
+    public static final String VUE = "/WEB-INF/mailForm.jsp";
+    //TEST SMTP
+	public static final String VUE_FAIL = "/WEB-INF/mailForm.jsp";
+	public static final String VUE_SUCCESS= "/WEB-INF/testSuccess.jsp";
+	
+	public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+        /* Affichage de la page d'inscription */
+        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+    }
+	
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException{
+        /* Préparation de l'objet formulaire */
+        MailForm form = new MailForm();
+		
+        /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
+        MailContent mailContent = form.setupMail( request );
+        
+        
+		
+        /* Stockage du formulaire et du bean dans l'objet request */
+        request.setAttribute( ATT_FORM, form );
+        request.setAttribute( ATT_USER, mailContent );
+        
+        if(form.getResultat().equalsIgnoreCase("Success")) {
+        	this.getServletContext().getRequestDispatcher( VUE_SUCCESS ).forward( request, response );
+        	@SuppressWarnings("unused")
+			SMTP testSMTP = new SMTP(mailContent);
+        }else {
+        	this.getServletContext().getRequestDispatcher( VUE_FAIL ).forward( request, response );
+        }
+       
+    }
+}

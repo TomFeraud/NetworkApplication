@@ -1,0 +1,4 @@
+127.0.0.1 - - [05/Mar/2018:16:37:53 +0100] "GET / HTTP/1.1" 404 993
+127.0.0.1 - - [05/Mar/2018:16:37:53 +0100] "GET /TestServletSMTP/form.css HTTP/1.1" 304 -
+127.0.0.1 - - [05/Mar/2018:16:37:54 +0100] "GET /TestServletSMTP/sendMail HTTP/1.1" 200 1540
+127.0.0.1 - - [05/Mar/2018:16:38:14 +0100] "POST /TestServletSMTP/sendMail HTTP/1.1" 200 304

@@ -1,0 +1,215 @@
+package Coursework;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+//Use mail-r.hw.ac.uk as SMTP server
+
+public class SMTP {
+	private static final int SMTP_PORT = 25; // basic SMTP port
+	private static final int SMTP_READYOK = 220; // Service ready
+	private static final int SMTP_CLOSEOK = 221; // Service closing transmission
+													// channel
+	private static final int SMTP_OK = 250; // Requested mail action okay,
+											// completed
+	private static final int SMTP_STARTDATA = 354; // Start mail input
+
+	private Message message;
+	private Socket socket;
+	private BufferedReader bufferedReader;
+	private PrintWriter printWriter;
+
+	public SMTP(MailContent mailContent) {
+		try {
+			sendEmail(mailContent);
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+
+	}
+
+	// Write a protocol message both to the network socket and to
+	// the screen
+	private void writeMsg(String msg) throws Exception {
+		printWriter.println(msg);
+		printWriter.flush();
+		System.out.println("> " + msg);
+	}
+
+	// Check the SMTP response code (cut at first " ")
+	private int serverReplyCode() throws Exception {
+		String line = bufferedReader.readLine();
+		System.out.println("< " + line); // print in the console the line
+		// returned
+		line = line.substring(0, line.indexOf(" ")); // take only the response
+														// code
+		return Integer.parseInt(line);
+	}
+
+	// Check the SMTP response code (cut at first "-")
+	private int serverReplyCodeESMTP() throws Exception {
+		String line = bufferedReader.readLine();
+		System.out.println("< " + line); // print in the console the line
+		// returned
+		line = line.substring(0, line.indexOf("-")); // take only the response
+														// code
+		return Integer.parseInt(line);
+	}
+
+	// Send an email message
+	private void sendEmail(MailContent mailContent) throws Exception {
+		System.out.println("-------------------------------------");
+		System.out.println("Opening Socket..");
+		socket = new Socket("mail-r.hw.ac.uk", SMTP_PORT);
+		System.out.println("Creating Reader & Writer..");
+		bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+		System.out.println("Reading first line..");
+		int code = serverReplyCode();
+		if (code != SMTP_READYOK) {
+			socket.close();
+			throw new Exception("Invalid SMTP Server");
+		}
+		System.out.println("Sending helo command..");
+		writeMsg("EHLO " + socket.getInetAddress().getHostName());
+		code = serverReplyCodeESMTP();
+		code = serverReplyCodeESMTP();
+		code = serverReplyCodeESMTP();
+		code = serverReplyCodeESMTP();
+		code = serverReplyCode();
+		if (code != SMTP_OK) {
+			closeConnection();
+			throw new Exception("Invalid SMTP Server");
+		}
+		System.out.println("Sending mail from command..");
+		writeMsg("MAIL FROM:<" + mailContent.getEmailFrom() + ">");
+		code = serverReplyCode();
+		if (code != SMTP_OK) {
+			closeConnection();
+			throw new Exception("Invalid from address");
+		}
+		System.out.println("Sending rcpt to command..");
+		writeMsg("RCPT TO:<" + mailContent.getEmailTo() + ">");
+		code = serverReplyCode();
+		if (code != SMTP_OK) {
+			closeConnection();
+			throw new Exception("Invalid to address");
+		}
+		System.out.println("Sending data command..");
+		writeMsg("DATA");
+		code = serverReplyCode();
+		if (code != SMTP_STARTDATA) { // end with <CRLF>.<CRLF>
+			closeConnection();
+			throw new Exception("Data entry not accepted");
+		}
+		System.out.println("Sending message..");
+		writeMsg("Subject: " + mailContent.getSubject());
+		writeMsg("To: " + mailContent.getEmailTo());
+		writeMsg("From: " + mailContent.getEmailFrom());
+		
+		writeMsg("Message: ");
+		
+		writeMsg(mailContent.getMessageMimeFormated());
+		code = serverReplyCode();
+		if (code != SMTP_OK) {
+			throw new Exception("Error while writing message contents");
+		} else {
+			writeMsg("QUIT");
+			bufferedReader.readLine();
+			code = serverReplyCode();
+			if (code != SMTP_CLOSEOK) {
+				throw new Exception("Error while closing: message may not have been sent correctly");
+			} else {
+				System.out.println("Message sent");
+				System.out.println("Closing Connection..");
+				closeConnection();
+			}
+
+		}
+
+	}
+
+	// Obtain input to complete the message contents (will disappear during
+	// implementation)
+	@SuppressWarnings("unused")
+	private void getInputTMP(MailContent mailContent) throws Exception {
+
+		message.setHostName("mail-r.hw.ac.uk");
+
+		// Request the sender's email address
+		message.setFrom(mailContent.getEmailFrom());
+
+		// Request the recipient's email address
+		message.setTo(mailContent.getEmailTo());
+
+		message.setSubject(mailContent.getSubject());
+/*
+		// TO MODIFY
+		String stringMimeBody = "";
+		stringMimeBody += message.getMimeBody().getVersion() + "\n";
+		stringMimeBody += message.getMimeBody().getType() + ";boundary=\"" + message.getMimeBody().getBoundary() + "\""
+				+ "\n";
+		stringMimeBody += "--" + message.getMimeBody().getBoundary() + "\n";
+		stringMimeBody += message.getMimeBody().getContentTypeText() + "\n";
+		stringMimeBody += "\n";
+		stringMimeBody += "Je suis le texte :)\n Tom. \n";
+		
+		 * stringMimeBody += "--" + message.getMimeBody().getBoundary() + "\n";
+		 * stringMimeBody += message.getMimeBody().getContentImage() + "\n";
+		 * stringMimeBody += message.getMimeBody().getContentEncoding() + "\n";
+		 * stringMimeBody += message.getMimeBody().getContentDisposition() + "\n";
+		 * stringMimeBody += "\n"; stringMimeBody +=
+		 * message.getMimeBody().encodeFile("picture.jpg"); stringMimeBody += "\n";
+		 */
+
+	//	stringMimeBody += "--" + message.getMimeBody().getBoundary() + "--\n.\n";
+		//message.setMessage(stringMimeBody);
+		message.setMessage(mailContent.getMessageMimeFormated());
+
+	}
+
+	// Close all readers, streams and sockets
+	private void closeConnection() throws Exception {
+		printWriter.flush();
+		printWriter.close();
+		bufferedReader.close();
+		socket.close();
+		System.out.println("Connection closed");
+	}
+
+	public String encodeFile(String string) throws Exception {
+
+		String output = "";
+
+		int len = (int) string.length();
+		FileInputStream fis = new FileInputStream(string);
+		byte[] buf = new byte[len];
+		int i = 0, n;
+		do {
+			n = fis.read(buf, i, len - i);
+			if (n != -1)
+				i += n;
+		} while (i < len && n != -1);
+		java.util.Base64.Encoder e = java.util.Base64.getEncoder();
+		byte[] b = e.encode(buf);
+		for (i = 0; i < b.length; i++) {
+			if (i != 0 && i % 76 == 0) {
+				// System.out.write('\n');
+				output += "\n";
+			}
+
+			// System.out.write(b[i]);
+			output += b[i];
+		}
+
+		// System.out.flush();
+		fis.close();
+		return output;
+
+	}
+
+}

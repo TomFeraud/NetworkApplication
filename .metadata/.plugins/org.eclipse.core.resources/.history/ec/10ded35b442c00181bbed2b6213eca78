@@ -1,0 +1,49 @@
+<%@ page pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Inscription</title>
+        <link type="text/css" rel="stylesheet" href="form.css" />
+    </head>
+    <body>
+        <form method="post" action="sendFile" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Send an e-mail</legend>
+                <p>You can send an e-mail using the following form:</p>
+
+                <label for="from">From <span class="requis">*</span></label>
+                <input type="email" id="from" name="from" value="" size="20" maxlength="60" />
+                <span class="erreur">${form.erreurs['emailFrom']}</span>
+                <br />
+
+                <label for="to">To <span class="requis">*</span></label>
+                <input type="email" id="to" name="to" value="" size="20" maxlength="60" />
+                <span class="erreur">${form.erreurs['emailTo']}</span>
+                <br />
+
+                <label for="subject">Subject <span class="requis">*</span></label>
+               <input type="text" id="subject" name="subject" value="" size="20" maxlength="20" />
+                <span class="erreur">${form.erreurs['subject']}</span>
+                <br />
+
+                <label for="message">Message</label>
+                <input type="text" id="message" name="message" value="" size="80" maxlength="200" />
+                <span class="erreur">${form.erreurs['message']}</span>
+                <br />
+                
+                <label for="fichier">Select a file <span class="requis">*</span></label>
+                <input type="file" id="fichier" name="fichier" />
+                <br />
+
+                <input type="submit" value="Send" class="sansLabel" />
+                <br />
+                
+                <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
+                
+                		<p>Nom Fichier: ${fichier}
+        				</p> 
+            </fieldset>
+        </form>
+    </body>
+</html>
