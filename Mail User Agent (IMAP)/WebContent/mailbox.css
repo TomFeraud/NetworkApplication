@@ -1,0 +1,27 @@
+span.fromField {
+	display: inline-block;
+	width: 25%;
+	vertical-align: top;
+}
+
+span.toField {
+	display: inline-block;
+	width: 25%;
+	vertical-align: top;
+}
+
+span.subjectField {
+	display: inline-block;
+	width: 35%;
+	vertical-align: top;
+}
+
+div.l0 {
+	background-color: #ffffff;
+	padding: 4px;
+}
+
+div.l1 {
+	background-color: #eeeeee;
+	padding: 4px;
+}
