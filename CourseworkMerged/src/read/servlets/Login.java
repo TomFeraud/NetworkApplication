@@ -19,6 +19,7 @@ import utility.HTMLUtils;
  */
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public static final String VIEW = "/login.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -32,7 +33,7 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
 	}
 
 	/**

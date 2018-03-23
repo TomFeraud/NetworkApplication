@@ -28,7 +28,7 @@
 	<div class = "warning">${warning}</div>
 	<div class = "info">${info}</div>
 	<div class="contentWrapper">
-		<div class = "spacer"><br/><br/><br/></div>
+		<div class = "spacer"><br/><br/><br/><br/><br/></div>
 		<div class="content">
 			<p>Subject: ${subject}</p>
 			<p>Date: ${date}</p>

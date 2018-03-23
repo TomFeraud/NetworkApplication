@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+
+  <web-app 
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+  version="3.0">
+  
+  
   <display-name>Mail User Agent</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -9,6 +16,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
   <servlet>
     <description>handles login attempts</description>
     <display-name>Login</display-name>
@@ -19,6 +27,7 @@
     <servlet-name>Login</servlet-name>
     <url-pattern>/Login</url-pattern>
   </servlet-mapping>
+  
    <servlet>
     <description></description>
     <display-name>mailbox</display-name>
@@ -29,6 +38,7 @@
     <servlet-name>mailbox</servlet-name>
     <url-pattern>/MailBox</url-pattern>
   </servlet-mapping>
+  
     <servlet>
     <description></description>
     <display-name>ViewMail</display-name>
@@ -39,6 +49,7 @@
     <servlet-name>ViewMail</servlet-name>
     <url-pattern>/ViewMail</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <description></description>
     <display-name>GetElement</display-name>
@@ -49,6 +60,7 @@
     <servlet-name>GetElement</servlet-name>
     <url-pattern>/GetElement</url-pattern>
   </servlet-mapping>
+  
     <servlet>
     <description></description>
     <display-name>DeleteMessage</display-name>
@@ -59,6 +71,7 @@
     <servlet-name>DeleteMessage</servlet-name>
     <url-pattern>/DeleteMessage</url-pattern>
   </servlet-mapping>
+  
   <servlet>
     <description></description>
     <display-name>Logout</display-name>
@@ -69,14 +82,22 @@
     <servlet-name>Logout</servlet-name>
     <url-pattern>/Logout</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>SendMail</display-name>
+  
+  
+    <servlet>
     <servlet-name>SendMail</servlet-name>
     <servlet-class>send.servlets.SendMail</servlet-class>
+    <!-- The following so the getParts() works correctly -->
+    <multipart-config>
+		<max-file-size>10485760</max-file-size> <!-- 10 Mo -->
+		<max-request-size>52428800</max-request-size> <!-- 5 x 10 Mo -->
+		<file-size-threshold>1048576</file-size-threshold> <!-- 1 Mo -->
+	</multipart-config>
   </servlet>
+  
   <servlet-mapping>
-    <servlet-name>SendMail</servlet-name>
-    <url-pattern>/sendMail</url-pattern>
-  </servlet-mapping> 
+   	 <servlet-name>SendMail</servlet-name>
+     <url-pattern>/sendMail</url-pattern>
+  </servlet-mapping>	
+  
 </web-app>

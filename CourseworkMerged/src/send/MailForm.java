@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
+import utility.HTMLUtils;
+
 //@MultipartConfig
 public class MailForm {
 	private static final String FIELD_FROM = "emailFrom";
@@ -53,6 +55,7 @@ public class MailForm {
 			java.util.Base64.Encoder enc = java.util.Base64.getEncoder();
 			byte[] b = enc.encode(imageBytes);
 			file = new String(b);
+			file = HTMLUtils.escapeHTML(file);
 			// System.out.println(file);
 		}
 

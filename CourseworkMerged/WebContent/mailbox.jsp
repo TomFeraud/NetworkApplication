@@ -9,9 +9,9 @@
 <%@ page import="read.mime.MimeMessage" %>
 <!-- Citations: http://www.the-art-of-web.com/javascript/confirm/ -->
 <head>
-	<link rel="stylesheet" href="main.css"/>
-	<link rel="stylesheet" href="mailbox.css"/>
-	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+	<!--   <link rel="stylesheet" href="main.css"/> -->
+	<!--  <link rel="stylesheet" href="mailbox.css"/> -->
+	 <link rel="stylesheet" href="send.css"/>	
 	<title>${currentMailBox}</title>
 </head>
 <body>
@@ -37,7 +37,7 @@
 		</c:forEach>
 	</div>
 	<div class="contentWrapper">
-		<div class = "spacer"><br/><br/><br/></div>
+		<div class = "spacer"><br/><br/><br/><br/></div>
 		<div class="content">
 			<div class="emailList">
 				<%int iteration = 0; %>
