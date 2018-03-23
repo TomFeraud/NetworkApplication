@@ -19,7 +19,7 @@ public class SendMail extends HttpServlet {
 	public static final String VIEW = "/SendMail.jsp";
 	public static final String VIEW_FAIL = "/SendMail.jsp"; // If the data entered are incorrect, we stay on
 																	// this page with the errors displayed
-	public static final String VIEW_SUCCESS = "/mailbox.jsp"; // If it's correct we switch pages
+	public static final String VIEW_SUCCESS = "MailBox"; // If it's correct we switch pages
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Display the "send mail" interface
@@ -38,7 +38,7 @@ public class SendMail extends HttpServlet {
 		request.setAttribute(ATT_USER, mailContent);
 
 		if (form.getResultat().equalsIgnoreCase("Success")) {
-			this.getServletContext().getRequestDispatcher(VIEW_SUCCESS).forward(request, response);
+			response.sendRedirect(VIEW_SUCCESS);
 			@SuppressWarnings("unused")
 			SMTP testSMTP = new SMTP(mailContent);
 		} else {

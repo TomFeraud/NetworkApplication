@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="application/xhtml+xml; charset=utf-8" pageEncoding="utf-8"%>
 
     <head>
         <title>Send e-Mail</title>
         <link type="text/css" rel="stylesheet" href="send.css" />
+        <link rel="stylesheet" href="main.css"/>	
 
     </head>
     <body>
-   
+   	<div class = "header">
+				<div class = "headerLink">
+				<a href="Logout">
+					Logout
+				</a>
+		</div>
+		<div class = "headerLink">
+				<a href="SendMail.jsp">
+					Compose
+				</a>
+			</div>	
+		<c:forEach var="mailBox" items="${mailBoxes}" >
+			<div class = "headerLink">
+				<a href='MailBox?mailBox=${fn:replace(mailBox, " ", "%20")}'>
+					${mailBox}
+				</a>
+			</div>	
+		</c:forEach>
+	</div>
+	
+	
+	<div class = "warning">${warning}</div>
+	<div class = "info">${info}</div>
+	<div class="contentWrapper">
+		<div class = "spacer"><br/><br/></div>
         <form action="sendMail" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>Send an e-mail</legend>
@@ -46,7 +72,7 @@
 
             </fieldset>
         </form>
-        
-        <a href="http://validator.w3.org/check?uri=referer">Valid HTML?</a>
+	</div>
+	<a href="http://validator.w3.org/check?uri=referer">Valid HTML?</a>
     </body>
 </html>

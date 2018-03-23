@@ -83,10 +83,13 @@ public class GetElement extends HttpServlet {
 		ServletOutputStream out = response.getOutputStream();
 		Object obj = elements.get(i);
 		
+		
 		if(obj.getClass() == MimeElement.class) {
 			MimeElement element = (MimeElement) obj;
+			System.out.println(element.getContentMajor());
 			if(element.getContentMajor().
-				toLowerCase().equals("image")) {
+				toLowerCase().equals("image") || element.getContentMajor().
+			toLowerCase().equals("video")){
 
 				response.setContentType(element.getContentMajor() 
 						+ "/" + element.getContentMinor());

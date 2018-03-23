@@ -12,14 +12,12 @@ import javax.servlet.http.HttpSession;
 import read.imap.Imap4Session;
 import read.imap.StatusBadException;
 import read.imap.StatusNoException;
-import utility.HTMLUtils;
 
 /**
  * Servlet implementation class Login
  */
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String VIEW = "/login.jsp";
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,7 +31,7 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
+		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -62,9 +60,31 @@ public class Login extends HttpServlet {
 				imapSession.updateMailBoxes();
 				mailBoxes = imapSession.getMailBoxes();
 				
+				
+				String trash;
+				String sent;
+				
+				
+				//make sure sent items and deleted items match
+				if(mailBoxes.contains("Deleted Items"))
+					trash = "Deleted Items";
+				else
+					trash = "Trash";
+				
+				if(mailBoxes.contains("Sent Items"))
+					sent = "Sent Items";
+				else
+					sent = "Sent";
+				
+				//only show INBOX, Sent and Trash
+				mailBoxes= new ArrayList<String>();
+				mailBoxes.add("INBOX");
+				mailBoxes.add(sent);
+				mailBoxes.add(trash);
+				
 				//escape mailbox names
 				for(int i = 0; i < mailBoxes.size(); i++) {
-					mailBoxes.set(i, (HTMLUtils.escapeHTML(mailBoxes.get(i))));
+					//mailBoxes.set(i, (HTMLUtils.escapeHTML(mailBoxes.get(i))));
 				}
 				
 				httpSession.setAttribute("imapSession", imapSession);
