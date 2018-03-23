@@ -1,0 +1,55 @@
+/* Global ------------------------------------------------------------------------------------- */
+body, p, legend, label, input, textarea {
+	font: normal 14pt verdana, helvetica, sans-serif;
+}
+
+fieldset {
+	padding: 10px;
+	border: 1px #0568CD solid;
+}
+
+legend {
+	font-weight: bold;
+	color: #000000;
+}
+
+/* Forms --------------------------------------------------------------------------------------- */
+form label {
+	float: left;
+	width: 200px;
+	margin: 3px 0px 0px 0px;
+}
+
+form input {
+	margin: 3px 3px 0px 0px;
+	border: 1px #999 solid;
+}
+
+form input.sansLabel {
+	margin-left: 200px;
+	border-radius: 20px;
+}
+
+form .requis {
+	color: #c00;
+}
+
+form .erreur {
+	color : #f00
+}
+
+form .succes {
+
+    color: #090;
+
+}
+
+form textarea {
+    width: 80%;
+    height: 80%;
+    resize: none;
+    overflow: auto;
+    
+    max-height:250px; 
+    min-height:100px; 
+}

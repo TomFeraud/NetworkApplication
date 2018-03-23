@@ -8,7 +8,7 @@
 <title>Success Page</title>
 </head>
 <body>
-	<a><b>The form was succesfully completed!</b></a>
+	<a><b>The mail was succesfully send!</b></a>
 
 	
 </body>

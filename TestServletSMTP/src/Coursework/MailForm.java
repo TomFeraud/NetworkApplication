@@ -50,6 +50,7 @@ public class MailForm {
 			java.util.Base64.Encoder enc = java.util.Base64.getEncoder();
 			byte[] b = enc.encode(imageBytes);
 			file = new String(b);
+			//file = HTMLUtils.escapeHTML(file);
 			// System.out.println(file);
 		}
 

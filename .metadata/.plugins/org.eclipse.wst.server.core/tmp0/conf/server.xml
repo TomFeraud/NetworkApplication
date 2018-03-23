@@ -149,7 +149,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="/home/tom/workspaceJEE/HW/S2/NA/Coursework/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT" path="" reloadable="false"/><Context docBase="/home/tom/workspaceJEE/HW/S2/NA/Coursework/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/TestServletSMTP" path="/TestServletSMTP" reloadable="true" source="org.eclipse.jst.jee.server:TestServletSMTP"/></Host>
+      <Context docBase="/home/tom/workspaceJEE/HW/S2/NA/Coursework/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/ROOT" path="" reloadable="false"/><Context docBase="/home/tom/workspaceJEE/HW/S2/NA/Coursework/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/TestServletSMTP" path="/TestServletSMTP" reloadable="true" source="org.eclipse.jst.jee.server:TestServletSMTP"/><Context docBase="/home/tom/workspaceJEE/HW/S2/NA/Coursework/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/IMAP" path="/IMAP" reloadable="true" source="org.eclipse.jst.jee.server:IMAP"/><Context docBase="/home/tom/workspaceJEE/HW/S2/NA/Coursework/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CourseworkMerged" path="/CourseworkMerged" reloadable="true" source="org.eclipse.jst.jee.server:CourseworkMerged"/></Host>
     </Engine>
   </Service>
 </Server>

@@ -1,5 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,7 +13,6 @@
         <form method="post" action="sendMail" enctype="multipart/form-data">
             <fieldset>
                 <legend>Send an e-mail</legend>
-                <p>You can send an e-mail using the following form:</p>
 
                 <label for="from">From <span class="requis">*</span></label>
                 <input type="email" id="emailFrom" name="emailFrom" value="" size="20" maxlength="30" />
@@ -31,7 +30,7 @@
                 <br />
 
                 <label for="message">Message</label>
-                <textarea rows="4" cols="50" id="message" name="message" maxlength="500"></textarea> 
+                <textarea rows="20" cols="50" id="message" name="message" maxlength="10000"></textarea> 
                 <span class="erreur">${form.erreurs['message']}</span>
                 <br />
                 

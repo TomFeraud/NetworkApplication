@@ -1,6 +1,6 @@
 /* Global ------------------------------------------------------------------------------------- */
 body, p, legend, label, input, textarea {
-	font: normal 8pt verdana, helvetica, sans-serif;
+	font: normal 14pt verdana, helvetica, sans-serif;
 }
 
 fieldset {
@@ -10,7 +10,7 @@ fieldset {
 
 legend {
 	font-weight: bold;
-	color: #0568CD;
+	color: #000000;
 }
 
 /* Forms --------------------------------------------------------------------------------------- */
@@ -45,8 +45,11 @@ form .succes {
 }
 
 form textarea {
-    width: 100%;
-    resize:vertical; 
+    width: 80%;
+    height: 80%;
+    resize: none;
+    overflow: auto;
+    
     max-height:250px; 
     min-height:100px; 
 }
