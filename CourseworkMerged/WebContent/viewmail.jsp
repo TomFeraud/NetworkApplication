@@ -4,7 +4,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="utf-8"%>
 <head>
-	<link rel="stylesheet" href="main.css"/>
+	<!-- <link rel="stylesheet" href="main.css"/> -->
+	<link rel="stylesheet" href="send.css"/>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 	<title>Insert title here</title>
 </head>

@@ -7,7 +7,8 @@
 <%@ page import="read.mime.MimeMessage" %>
 <head>
 <title>Login</title>
-<link rel="stylesheet" href="send.css"/>
+<!-- <link rel="stylesheet" href="send.css"/> -->
+<link rel="stylesheet" href="login.css"/>
 </head>
 <body>
 	<c:if test="${empty(imapSession)}">
