@@ -294,7 +294,7 @@ public class Imap4Session {
 
 		while(!checkIfReturned(inLine)) {
 			inLine = inLine.trim();
-			System.out.println("> " + inLine);
+			//System.out.println("> " + inLine);
 
 			//ending boundary should be added, but not flags
 			//or numbered return message

@@ -4,6 +4,7 @@
 <%@page import="java.util.HashMap"%>
 <%! @SuppressWarnings("unchecked")%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="read.mime.MimeMessage" %>
@@ -11,7 +12,7 @@
 <head>
 	<!--   <link rel="stylesheet" href="main.css"/> -->
 	<!--  <link rel="stylesheet" href="mailbox.css"/> -->
-	 <link rel="stylesheet" href="send.css"/>	
+	 <link rel="stylesheet" href="main.css"/>	
 	<title>${currentMailBox}</title>
 </head>
 <body>
@@ -30,14 +31,14 @@
 			</div>	
 		<c:forEach var="mailBox" items="${mailBoxes}" >
 			<div class = "headerLink">
-				<a href="MailBox?mailBox=${mailBox}">
+				<a href='MailBox?mailBox=${fn:replace(mailBox, " ", "%20")}'>
 					${mailBox}
 				</a>
 			</div>	
 		</c:forEach>
 	</div>
 	<div class="contentWrapper">
-		<div class = "spacer"><br/><br/><br/><br/></div>
+		<div class = "spacer"><br/><br/></div>
 		<div class="content">
 			<div class="emailList">
 				<%int iteration = 0; %>

@@ -185,11 +185,11 @@ public class ViewMail extends HttpServlet {
 			
 		//iterate through the entries
 		for (int i = 0; i < entries.size(); i++) {
-			System.out.println(entries.get(i).toString());
+			//System.out.println(entries.get(i).toString());
 			if(entries.get(i).getClass() == MimeElement.class) {
 				MimeElement currentElement = (MimeElement) entries.get(i);
-				System.out.println(currentElement.toString());
-				System.out.println(currentElement.getContentAsString());
+				System.out.println(currentElement.getContentMajor());
+				//System.out.println(currentElement.getContentAsString());
 				//add to list of elements
 				elements.put(i, currentElement);
 				
@@ -213,6 +213,15 @@ public class ViewMail extends HttpServlet {
 					//save image id
 					imageIds.put(i, currentElement.getContentId());
 				}
+				
+				else if(currentElement.getContentMajor().toLowerCase().equals("video")) {
+					System.out.println("Found video in file.");
+					
+					data.append("<div class = 'vid'><video>"
+							+ "<source src='GetElement?id=" + i + "' type='" 
+							+ currentElement.getContentMajor() + "/" 
+							+ currentElement.getContentMinor() + "'</source></video></div>");
+				}
 				data.append("\n");
 			}
 			else if(entries.get(i).getClass() == MimeEntryList.class) {
@@ -222,6 +231,7 @@ public class ViewMail extends HttpServlet {
 						response, list));
 			}
 		}
+		
 		
 		//convert to String and insert embedded images
 		String dataString = data.toString();

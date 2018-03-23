@@ -35,7 +35,7 @@ public class MimeEntryList extends MimeEntry {
 		ArrayList<String> currentHeaders = new ArrayList<String>();
 		
 		for(String line : body) {
-			System.out.print("Parsing @" + level + ": " + line);
+			//System.out.print("Parsing @" + level + ": " + line);
 			
 			//parse outer headers of multipart message			
 			if(!outerHeadersRead) {
