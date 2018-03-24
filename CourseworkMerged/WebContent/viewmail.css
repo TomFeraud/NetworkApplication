@@ -8,12 +8,17 @@ body{
 	color: #2c2c33;
 	background-color: #87CEEB;
 	margin-top: 0%;
-
+	height: 100%;
 }
 
+html {
+	height: 100%;
+	overflow-y: hidden;
+}
 p{
 	text-align: center;
 }
+
 
 /* Forms --------------------------------------------------------------------------------------- */
 form label {
@@ -26,7 +31,6 @@ form input {
 	margin: 3px 3px 0px 0px;
 	border: 1px #999 solid;
 }
-
 
 
 /* Header */
@@ -53,14 +57,12 @@ div.headerLink {
 	margin: 5px;
 }
 
-div.content {
-	padding: 10px;
-}
 
 div.contentWrapper {
 	background-color: white;
 	margin-left: 7.5%;
 	margin-right: 7.5%;
+	height: 80%;
 }
 
 div.thumbnail {
@@ -74,10 +76,28 @@ div.thumbnail img {
 }
 
 div.content {
-	padding-top : 5%;
-	padding-bottom: 10%;
+	height: 100%;
+	width:100%;
+	display: table;
 }
 
+div.body {
+	height:100%;
+	display: table-row;
+	text-align: center;
+	padding: 10px;
+}
+
+div.details {
+	display: table-row;
+	width:100%;
+}
+
+div.padDetails {
+	padding: 10px;
+}
+
+	
 /* Hyperlink */
 
 a.valid {
@@ -91,6 +111,10 @@ a.valid:visited {
 	color: #006300;
 }
 
+object.emailBody {
+	width: 100%;
+	height: 100%;
+}
 
 hr.line{
 	width: 100%;
@@ -98,3 +122,5 @@ hr.line{
     align: left;
     padding-top : 0%;
 }
+
+

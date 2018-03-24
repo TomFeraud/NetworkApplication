@@ -244,8 +244,8 @@ public class ViewMail extends HttpServlet {
 					"GetElement?id=" + key);
 		}
 			
-		//put content into the request so the JSP can display it
-		request.setAttribute("emailBody", dataString);
+		//put content into the httpSession so that the JSP can display it
+		httpSession.setAttribute("emailBody", dataString);
 		
 		return dataString;
 	}

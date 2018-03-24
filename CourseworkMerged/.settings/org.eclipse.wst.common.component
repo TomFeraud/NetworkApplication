@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="CourseworkMerged">
+    <wb-module deploy-name="Mail User Agent (IMAP)">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="CourseworkMerged"/>
-        <property name="java-output-path" value="/CourseworkMerged/build/classes"/>
+        <dependent-module archiveName="commons-codec-1.11.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Mail User Agent (IMAP)/commons-codec-1.11.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/Mail User Agent (IMAP)/build/classes"/>
+        <property name="context-root" value="mail_user_agent_merged"/>
     </wb-module>
 </project-modules>

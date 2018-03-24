@@ -34,15 +34,21 @@
 	<div class="contentWrapper">
 		<div class = "spacer"></div>
 		<div class="content">
-			<div>From: ${fromAdd} (${fromName})</div>
-			<div>Subject: ${subject}</div>
-			<div>Date: ${date}</div>
-			<!-- <div>To: ${toAdd} (${toName})</div> -->
-			<div>Message: </div><hr class = "line" /> 
-			${emailBody}
+			<div class = "details">
+				<div class = "padDetails">
+					<div>From: ${fromAdd} (${fromName})</div>
+					<div>Subject: ${subject}</div>
+					<div>Date: ${date}</div>
+					<!-- <div>To: ${toAdd} (${toName})</div> -->
+					<div>Message: </div><hr class = "line" /> 
+				</div>
+			</div>
+			<div class = "body">
+				<object type="text/html" data="body.jsp" class="emailBody"></object>
+			</div>
 		</div>
+		
 	</div>
-	<br/><br/><br/>
 	<p><a href="http://validator.w3.org/check?uri=referer" class ="valid">Valid XHTML?</a></p>
 	
 </body>
