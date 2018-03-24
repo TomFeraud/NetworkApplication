@@ -7,7 +7,6 @@
 <%@ page import="read.mime.MimeMessage" %>
 <head>
 <title>Login</title>
-<!-- <link rel="stylesheet" href="send.css"/> -->
 <link rel="stylesheet" href="login.css"/>
 </head>
 <body>
@@ -16,21 +15,39 @@
 		<div class = "info">${info}</div>
 	
 		<form action="Login" method="post">
-				<p>Server: <input type="text" name="server" list="servers" required="required" value="imap.mail.co.uk"/></p>
-					<datalist id="servers">
+		
+		<div class="block">
+		    <label>Server:</label>
+		    <input type="text" name="server" list="servers" required="required" value="outlook.office365.com"/><datalist id="servers">
 						<option value="imap.mail.co.uk"></option>
 						<option value="outlook.office365.com"></option>
 					</datalist>	
-				<p>Port: <input type="text" name="port" value="993" required="required"/></p>
-				<p>User name: <input type="text" name="username" value="F21NA-TEST@mail.co.uk" required="required"/></p>
-				<p>Password: <input type="password" name="password" required="required"/></p>
-				<p><input type="submit"/></p>
+		</div>
+		<div class="block">
+		    <label>Port:</label>
+		    <input type="text" name="port" value="993" required="required"/>
+		</div>
+		<div class="block">
+		    <label>User name:</label>
+		    <input type="text" name="username" value="" required="required"/>		    
+		</div>
+		<div class="block">
+		    <label>Password:</label>
+		    <input type="password" name="password" required="required"/>		    
+		</div>
+		
+		<p><input type="submit"/></p>
+				
 		</form>
 	</c:if>
 	<c:if test="${not empty(imapSession)}">
 		Already logged in.
 		<%response.sendRedirect("MailBox"); %>
 	</c:if>
-	<a href="http://validator.w3.org/check?uri=referer">Valid HTML?</a>
+	<br/><br/><br/><br/>
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML?</a></p>
+	
+
+
 </body>
 </html>

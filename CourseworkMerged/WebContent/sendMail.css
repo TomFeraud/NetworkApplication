@@ -1,0 +1,136 @@
+/* Global */
+
+body, p, input {
+	font: normal 14pt verdana, helvetica, sans-serif;
+	text-align: left;
+	
+}
+
+body{
+	font: normal 14pt verdana, helvetica, sans-serif;
+	color: #2c2c33;
+	background-color: #87CEEB;
+	margin-top: 0%;
+
+}
+
+label {
+  display: inline-block;
+  width: 19%;
+  text-align: left;
+}
+
+input {
+	background-color: #eff1fc;
+	color: #202026;
+	margin: 3px 3px 0px 0px;
+	border: 1px #999 solid;
+    display: inline-block;
+    border-radius:5px;
+    text-align: left;
+    margin-left: 0%;
+    width: 30%;
+}
+
+
+#subject {
+	width: 40%;
+}
+
+#send {
+	width: 7%;
+}
+
+p{
+	text-align: center;
+}
+
+/* form style */
+form .requis {
+	color: #bf0e0e;
+}
+
+form .erreur {
+	color : #f00
+}
+
+form .succes {
+
+    color: #090;
+}
+
+form textarea {
+    width: 80%;
+    height: 80%;
+    resize: none;
+    overflow: auto;
+    max-height:250px; 
+    min-height:100px; 
+    font: normal 15pt verdana, helvetica, sans-serif;
+}
+
+/* Header */
+
+div.header {
+	background-color: #5E90A4;
+	margin-top: 0%;
+	margin-left: 7.5%;
+	margin-right: 7.5%;
+	width: 85%;
+}
+
+
+div.headerLink a {
+	text-decoration: none;
+	color: #E4F7FE;
+	font-weight:bold;
+	
+}
+
+
+div.headerLink {
+	display: inline-block;
+	margin: 5px;
+}
+
+div.content {
+	padding: 10px;
+}
+
+div.contentWrapper {
+	background-color: white;
+	margin-left: 7.5%;
+	margin-right: 7.5%;
+}
+
+div.thumbnail {
+	display: inline-block;
+	padding: 0.1%;
+}
+
+div.thumbnail img {
+	max-height: 150px;
+	max-width: 150px;
+}
+
+
+
+
+/* Hyperlink */
+
+ a:link {
+color: #006300;
+}
+
+a:hover {
+color: #004500;
+} 
+
+a:visited {
+color: #006300;
+}
+
+
+
+
+

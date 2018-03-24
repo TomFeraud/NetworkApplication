@@ -1,79 +1,54 @@
 /* Global ------------------------------------------------------------------------------------- */
 
 
-body, p, legend, label, input {
+body, p, input {
 	font: normal 14pt verdana, helvetica, sans-serif;
+	text-align: center;
 	
 }
+
 body{
 	font: normal 14pt verdana, helvetica, sans-serif;
-	background-color: #729fcf;
-	margin: 0%;
+	color: #2c2c33;
+	background-color: #87CEEB;
+	margin-top: 12%;
+	text-align: justify;
 }
 
-input{
-	background-color: #d3d7cf;
+label {
+  display: inline-block;
+  width: 40%;
+  text-align: right;
 }
 
-
-/* Forms --------------------------------------------------------------------------------------- */
-
-
-form input {
+input {
+	background-color: #eff1fc;
+	color: #202026;
 	margin: 3px 3px 0px 0px;
 	border: 1px #999 solid;
+    display: inline-block;
+    border-radius:5px;
+    text-align: left;
+    margin-left: 0%;
+    
 }
 
-form input.sansLabel {
-	margin-left: 200px;
-	border-radius: 20px;
+p{
+	text-align: center;
 }
 
-form .requis {
-	color: #c00;
+/* Hyperlink */
+
+ a:link {
+color: #006300;
 }
 
+a:hover {
+color: #004500;
+} 
 
-/*********************************/
-
-/* main.css */
-
-div.header {
-	background-color: #3F48CC;
-	margin-top: 0%;
-	position: fixed;
-	margin-left: 7.5%;
-	margin-right: 7.5%;
-	width: 85%;
+a:visited {
+color: #006300;
 }
-
-
-div.headerLink a {
-	text-decoration: none;
-	color: #E8E3F4;
-	font-weight:bold;
-}
-
-
-div.headerLink {
-	display: inline-block;
-	margin: 5px;
-}
-
-div.content {
-	padding: 10px;
-}
-
-div.contentWrapper {
-	background-color: white;
-	margin-left: 7.5%;
-	margin-right: 7.5%;
-}
-
-div.thumbnail {
-	display: inline-block;
-	padding: 0.1%;
-}
-
 
 

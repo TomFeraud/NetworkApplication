@@ -2,7 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <%@page import="read.mime.MimeMessage"%>
 <%@page import="java.util.HashMap"%>
-<%! @SuppressWarnings("unchecked")%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -10,9 +9,8 @@
 <%@ page import="read.mime.MimeMessage" %>
 <!-- Citations: http://www.the-art-of-web.com/javascript/confirm/ -->
 <head>
-	<!--   <link rel="stylesheet" href="main.css"/> -->
-	<!--  <link rel="stylesheet" href="mailbox.css"/> -->
-	 <link rel="stylesheet" href="main.css"/>	
+
+	 <link rel="stylesheet" href="mailbox.css"/>	
 	<title>${currentMailBox}</title>
 </head>
 <body>
@@ -38,7 +36,13 @@
 		</c:forEach>
 	</div>
 	<div class="contentWrapper">
-		<div class = "spacer"><br/><br/></div>
+		<div class = "spacer"><br/></div>
+		<div id = test>
+		<!-- To add spaces between our div elements -->
+&emsp; &emsp;&emsp;&emsp;&emsp;&emsp; From
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;To
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Subject
+							</div>
 		<div class="content">
 			<div class="emailList">
 				<%int iteration = 0; %>
@@ -57,12 +61,13 @@
 												.get(end - iteration)); 
 												
 							iteration++;%>
+							
 							<div class="emailListItem">
 									<span class = "deleteLink">
 										<a href="DeleteMessage?id=${currentMessage.getId()}&validator=${validator}" 
 											onClick="return confirm('Are you sure you want to delete this email?')">
 											Delete
-										</a>
+										</a>&emsp;
 									</span>
 									<span class = "fromField">
 										${currentMessage.getFromEmail()}
@@ -97,6 +102,6 @@
 		</div>
 	</div>
 	
-	<a href="http://validator.w3.org/check?uri=referer">Valid HTML?</a>
+	<p><a href="http://validator.w3.org/check?uri=referer" class ="valid">Valid XHTML?</a></p>
 </body>
 </html>

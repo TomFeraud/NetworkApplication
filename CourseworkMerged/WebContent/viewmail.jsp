@@ -2,13 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="application/xhtml+xml; charset=utf-8" pageEncoding="utf-8"%>
 <head>
-	<!-- <link rel="stylesheet" href="main.css"/> -->
-	<link rel="stylesheet" href="send.css"/>
-	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
-	<title>Insert title here</title>
+	<link rel="stylesheet" href="viewmail.css"/>
+	<title>View mail</title>
 </head>
 <body>
 	<div class = "header">
@@ -35,16 +32,18 @@
 	<div class = "warning">${warning}</div>
 	<div class = "info">${info}</div>
 	<div class="contentWrapper">
-		<div class = "spacer"><br/><br/></div>
+		<div class = "spacer"></div>
 		<div class="content">
-			<p>Subject: ${subject}</p>
-			<p>Date: ${date}</p>
-			<p>From: ${fromAdd} (${fromName})</p>
-			<p>To: ${toAdd} (${toName})</p>
+			<div>From: ${fromAdd} (${fromName})</div>
+			<div>Subject: ${subject}</div>
+			<div>Date: ${date}</div>
+			<!-- <div>To: ${toAdd} (${toName})</div> -->
+			<div>Message: </div><hr class = "line" /> 
 			${emailBody}
 		</div>
 	</div>
-	<a href="http://validator.w3.org/check?uri=referer">Valid HTML?</a>
+	<br/><br/><br/>
+	<p><a href="http://validator.w3.org/check?uri=referer" class ="valid">Valid XHTML?</a></p>
 	
 </body>
 </html>
