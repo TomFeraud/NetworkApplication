@@ -1,6 +1,5 @@
 package send;
 
-
 public class MailContent {
 	private String hostName = "";
 	private String emailFrom = "";
@@ -84,6 +83,12 @@ public class MailContent {
 		this.fileContentType = fileContentType;
 	}
 
+	/**
+	 * Creates a MIME message using the message typed by the user and adding hearders
+	 * and boundaries to it.
+	 * 
+	 * @return stringMimeBody
+	 */
 	public String getMessageMimeFormated() {
 		String fileData = "";
 		if (this.getFile() != "") {

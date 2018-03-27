@@ -46,7 +46,8 @@
 	</c:if>
 	<br/><br/><br/><br/>
 	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML?</a></p>
-	
+	<p><a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS?</a></p>
+	<p class="names">Tom Feraud &amp; Andrew Graham</p>
 
 
 </body>

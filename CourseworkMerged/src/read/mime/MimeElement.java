@@ -36,6 +36,7 @@ public class MimeElement extends MimeEntry {
 		
 		//if base64 encoding has been used, decode it first
 		if (encoding.toLowerCase().equals("base64")) {
+			System.out.println("decoding base64");
 			for (String line : content) {
 				build.append(line);
 			}
@@ -54,7 +55,7 @@ public class MimeElement extends MimeEntry {
 			
 		}
 		else if(encoding.toLowerCase().equals("quoted-printable")) {
-			System.out.println("Parsing quoted printable");
+			System.out.println("decoding quoted printable");
 			build = new StringBuilder();
 			
 			//use the apache code library to decode quoted-printable text
@@ -87,17 +88,13 @@ public class MimeElement extends MimeEntry {
 				e.printStackTrace();
 			}
 			
-
-		
 			} else {
 				for (String line : content) {
-					build.append(line + "<br/>");
+					build.append(line);
 			}
 			
 			str = build.toString();
-		}
-
-
+		} 
 		return str;
 	}
 	

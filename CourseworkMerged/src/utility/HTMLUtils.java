@@ -50,6 +50,9 @@ public class HTMLUtils {
 		str = str.replaceAll("”", "&#8221;");
 		str = str.replaceAll("‘", "&lsquo;");
 		str = str.replaceAll("’", "&#8217;");
+		
+		//other
+		str = str.replaceAll("·", "&#149;");
 		return str;
 	}
 }

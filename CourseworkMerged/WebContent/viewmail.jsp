@@ -36,11 +36,11 @@
 		<div class="content">
 			<div class = "details">
 				<div class = "padDetails">
-					<div>From: ${fromAdd} (${fromName})</div>
-					<div>Subject: ${subject}</div>
-					<div>Date: ${date}</div>
+					<div><label>From:</label> ${fromAdd} (${fromName})</div>
+					<div><label>Subject:</label> ${subject}</div>
+					<div><label>Date:</label> ${date}</div>
 					<!-- <div>To: ${toAdd} (${toName})</div> -->
-					<div>Message: </div><hr class = "line" /> 
+					<div><label>Message:</label></div><hr class = "line" /> 
 				</div>
 			</div>
 			<div class = "body">
@@ -50,6 +50,7 @@
 		
 	</div>
 	<p><a href="http://validator.w3.org/check?uri=referer" class ="valid">Valid XHTML?</a></p>
+	<p><a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS?</a></p>
 	
 </body>
 </html>

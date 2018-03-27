@@ -66,7 +66,7 @@
 				</div>
 				
                 
-                <label for="file">Select a file</label>
+                <label for="file" class="file">Select a file</label>
                 <input type="file" id="file" name="file" />
                 <span class="erreur">${form.erreurs['file']}</span>
                 <br /><br />
@@ -79,6 +79,7 @@
             </fieldset>
         </form>
 	</div>
-	<p id=""><a href="http://validator.w3.org/check?uri=referer">Valid XHTML?</a></p>
+	<p><a href="http://validator.w3.org/check?uri=referer">Valid XHTML?</a></p>
+	<p><a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS?</a></p>
     </body>
 </html>

@@ -1,6 +1,5 @@
 package send;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -30,15 +29,23 @@ public class MailForm {
 		return erreurs;
 	}
 
+	/**
+	 * Set up the content of our mail by equests parameters (e.g. from, subject) to
+	 * our servlet.
+	 * 
+	 * @param request
+	 * @return mailContent
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	public MailContent setupMail(HttpServletRequest request) throws IOException, ServletException {
 		String emailFrom = getFieldValue(request, FIELD_FROM);
 		String emailTo = getFieldValue(request, FIELD_TO);
 		String subject = getFieldValue(request, FIELD_SUBJECT);
 		String message = getFieldValue(request, FIELD_MESSAGE);
-		
+
 		System.out.println("FROM:" + emailFrom);
-		
-		// THIS IS WORKING :)
+
 		Part part = request.getPart(FIELD_FILE);
 		String file = "";
 		System.out.println("Part content type: " + part.getContentType()); // image/jpeg
@@ -82,10 +89,9 @@ public class MailForm {
 		}
 		mailContent.setSubject(subject);
 
-		if(message == null) {
-			mailContent.setMessage(""); //Otherwise send "null"
-		}
-		else {
+		if (message == null) {
+			mailContent.setMessage(""); // Otherwise send "null"
+		} else {
 			mailContent.setMessage(message);
 		}
 		try {
@@ -106,6 +112,12 @@ public class MailForm {
 		return mailContent;
 	}
 
+	/**
+	 * Validates the format of the e-mail typed.
+	 * 
+	 * @param email
+	 * @throws Exception
+	 */
 	private void validationEmail(String email) throws Exception {
 		if (email != null) {
 			if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
@@ -116,32 +128,54 @@ public class MailForm {
 		}
 	}
 
+	/**
+	 * Validates that a subject has been informed.
+	 * 
+	 * @param subject
+	 * @throws Exception
+	 */
 	private void validationSubject(String subject) throws Exception {
 		if (subject == null || subject.equalsIgnoreCase("")) {
 			throw new Exception("Please add a subject.");
 		}
 	}
 
-	@SuppressWarnings("unused") //Could be useful
+	@SuppressWarnings("unused") // Could be useful
 	private void validationMessage(String message) throws Exception {
-		if (message.length()<=1) {
+		if (message.length() <= 1) {
 			throw new Exception("Please enter a message > 1 char");
 		}
 	}
 
+	/**
+	 * Checks if the file is not null.
+	 * 
+	 * @param file
+	 * @throws Exception
+	 */
 	private void validationFile(String file) throws Exception {
 		if (file == null) {
 			throw new Exception("Error linked to the file.");
 		}
 	}
 
-
-	//Add an error message corresponding to the field
+	/**
+	 * Add an error message corresponding to the field
+	 * 
+	 * @param field
+	 * @param message
+	 */
 	private void setErreur(String field, String message) {
 		erreurs.put(field, message);
 	}
 
-	//Return null if a field is empty, its content otherwise
+	/**
+	 *  Return null if a field is empty, its content otherwise
+	 *  
+	 * @param request
+	 * @param nomChamp
+	 * @return the value of the field requested
+	 */
 	private static String getFieldValue(HttpServletRequest request, String nomChamp) {
 		String valeur = request.getParameter(nomChamp);
 		System.out.println("Value: " + valeur);

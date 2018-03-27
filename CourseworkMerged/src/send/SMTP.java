@@ -1,8 +1,6 @@
 package send;
 
-
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -15,14 +13,19 @@ public class SMTP {
 	private static final int SMTP_READYOK = 220; // Service ready
 	private static final int SMTP_CLOSEOK = 221; // Service closing transmission
 													// channel
-	private static final int SMTP_OK = 250; // Requested mail action okay,
-											// completed
+	private static final int SMTP_OK = 250; // Requested mail action ok
 	private static final int SMTP_STARTDATA = 354; // Start mail input
 
 	private Socket socket;
 	private BufferedReader bufferedReader;
 	private PrintWriter printWriter;
 
+	/**
+	 * Constructor of SMTP, try to send the email using the mailContent in
+	 * parameter.
+	 * 
+	 * @param mailContent
+	 */
 	public SMTP(MailContent mailContent) {
 		try {
 			sendEmail(mailContent);
@@ -32,15 +35,24 @@ public class SMTP {
 
 	}
 
-	// Write a protocol message both to the network socket and to
-	// the screen
+	/**
+	 * Write a protocol message to the network socket
+	 * 
+	 * @param msg
+	 * @throws Exception
+	 */
 	private void writeMsg(String msg) throws Exception {
 		printWriter.println(msg);
 		printWriter.flush();
-		//System.out.println("> " + msg);
+
 	}
 
-	// Check the SMTP response code (cut at first " ")
+	/**
+	 * Check the SMTP response code (cut at first " ")
+	 * 
+	 * @return responseCode
+	 * @throws Exception
+	 */
 	private int serverReplyCode() throws Exception {
 		String line = bufferedReader.readLine();
 		System.out.println("< " + line); // print in the console the line
@@ -50,7 +62,12 @@ public class SMTP {
 		return Integer.parseInt(line);
 	}
 
-	// Check the SMTP response code (cut at first "-")
+	/**
+	 * Check the SMTP response code (cut at first "-")
+	 * 
+	 * @return responseCode
+	 * @throws Exception
+	 */
 	private int serverReplyCodeESMTP() throws Exception {
 		String line = bufferedReader.readLine();
 		System.out.println("< " + line); // print in the console the line
@@ -60,7 +77,12 @@ public class SMTP {
 		return Integer.parseInt(line);
 	}
 
-	// Send an email message
+	/**
+	 * Send an email message
+	 * 
+	 * @param mailContent
+	 * @throws Exception
+	 */
 	private void sendEmail(MailContent mailContent) throws Exception {
 		System.out.println("-------------------------------------");
 		System.out.println("Opening Socket..");
@@ -107,7 +129,7 @@ public class SMTP {
 			throw new Exception("Data entry not accepted");
 		}
 		System.out.println("Sending message..");
-		writeMsg("Subject: " + mailContent.getSubject());
+		writeMsg("Subject: " + mailContent.getSubject());	
 		writeMsg("To: " + mailContent.getEmailTo());
 		writeMsg("From: " + mailContent.getEmailFrom());
 
@@ -133,44 +155,17 @@ public class SMTP {
 
 	}
 
-	// Close all readers, streams and sockets
+	/**
+	 * Close all readers, streams and sockets
+	 * 
+	 * @throws Exception
+	 */
 	private void closeConnection() throws Exception {
 		printWriter.flush();
 		printWriter.close();
 		bufferedReader.close();
 		socket.close();
 		System.out.println("Connection closed");
-	}
-
-	public String encodeFile(String string) throws Exception {
-
-		String output = "";
-
-		int len = (int) string.length();
-		FileInputStream fis = new FileInputStream(string);
-		byte[] buf = new byte[len];
-		int i = 0, n;
-		do {
-			n = fis.read(buf, i, len - i);
-			if (n != -1)
-				i += n;
-		} while (i < len && n != -1);
-		java.util.Base64.Encoder e = java.util.Base64.getEncoder();
-		byte[] b = e.encode(buf);
-		for (i = 0; i < b.length; i++) {
-			if (i != 0 && i % 76 == 0) {
-				// System.out.write('\n');
-				output += "\n";
-			}
-
-			// System.out.write(b[i]);
-			output += b[i];
-		}
-
-		// System.out.flush();
-		fis.close();
-		return output;
-
 	}
 
 }

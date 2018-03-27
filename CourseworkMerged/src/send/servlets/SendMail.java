@@ -13,25 +13,36 @@ import send.SMTP;
 
 @SuppressWarnings("serial")
 @MultipartConfig
+/**
+ * 
+ * Servlet implemenation class SendMail
+ *
+ */
 public class SendMail extends HttpServlet {
 	public static final String ATT_USER = "mailContent";
 	public static final String ATT_FORM = "form";
 	public static final String VIEW = "/SendMail.jsp";
 	public static final String VIEW_FAIL = "/SendMail.jsp"; // If the data entered are incorrect, we stay on
-																	// this page with the errors displayed
+															// this page with the errors displayed
 	public static final String VIEW_SUCCESS = "MailBox"; // If it's correct we switch pages
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// Display the "send mail" interface
 		this.getServletContext().getRequestDispatcher(VIEW).forward(request, response);
 	}
 
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		MailForm form = new MailForm();
 		MailContent mailContent = form.setupMail(request);
-		
-		
 
 		// Storage of the form in the request object
 		request.setAttribute(ATT_FORM, form);

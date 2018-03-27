@@ -51,4 +51,8 @@ a:visited {
 color: #006300;
 }
 
+p.names {
+	text-align: left;
+	font-style: italic;
+}
 

@@ -38,54 +38,60 @@
 	<div class="contentWrapper">
 		<div class = "spacer"><br/></div>
 		<div id = test>
-		<!-- To add spaces between our div elements -->
-&emsp; &emsp;&emsp;&emsp;&emsp;&emsp; From
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;To
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Subject
 							</div>
 		<div class="content">
 			<div class="emailList">
 				<%int iteration = 0; %>
 				<c:if test="${emailCount > '0'}">
-					<c:forEach var = "i" begin = "${pageStart}" end = "${pageEnd}">
-						<!-- find out if line is odd or even and colour accordingly -->
-						<div class="l${i%2}">
-							<% /*messy way of getting current message from HashMap and storing
-							in the page context*/
-							//get current item in reverse message order
-							int end = (Integer) request.getAttribute("pageEnd");
-							
-							pageContext.setAttribute("currentMessage", 
-									((HashMap<Integer, MimeMessage>) 
-											request.getAttribute("messages"))
-												.get(end - iteration)); 
-												
-							iteration++;%>
-							
-							<div class="emailListItem">
-									<span class = "deleteLink">
-										<a href="DeleteMessage?id=${currentMessage.getId()}&validator=${validator}" 
-											onClick="return confirm('Are you sure you want to delete this email?')">
-											Delete
-										</a>&emsp;
-									</span>
-									<span class = "fromField">
-										${currentMessage.getFromEmail()}
-									</span>
-									<span class = "toField">
-										${currentMessage.getToEmail()}
-									</span>
-									<span class = "subjectField">
-										<a href="ViewMail?id=${currentMessage.getId()}">
-											${currentMessage.getSubject()}
-										</a>
-									</span>
-									<%-- <span class = "dateField">
-										${currentMessage.getDate()}
-									</span> --%>
-							</div>
-						</div>
-					</c:forEach>
+					<table>
+						<tr>
+							<th></th>
+							<th>
+								From
+							</th>
+							<th>
+								To
+							</th>
+							<th>
+								Subject
+							</th>
+						</tr>
+						<c:forEach var = "i" begin = "${pageStart}" end = "${pageEnd}">
+							<!-- find out if line is odd or even and colour accordingly -->
+								<% /*messy way of getting current message from HashMap and storing
+								in the page context*/
+								//get current item in reverse message order
+								int end = (Integer) request.getAttribute("pageEnd");
+								
+								pageContext.setAttribute("currentMessage", 
+										((HashMap<Integer, MimeMessage>) 
+												request.getAttribute("messages"))
+													.get(end - iteration)); 
+													
+								iteration++;%>
+								<tr class="l${i%2}">
+											<td class = "deleteLink">
+												<a href="DeleteMessage?id=${currentMessage.getId()}&validator=${validator}" 
+													onClick="return confirm('Are you sure you want to delete this email?')">
+													Delete</a>
+											</td>
+											<td class = "fromField">
+												${currentMessage.getFromEmail()}
+											</td>
+											<td class = "toField">
+												${currentMessage.getToEmail()}
+											<td class = "subjectField">
+												<a href="ViewMail?id=${currentMessage.getId()}">
+													${currentMessage.getSubject()}
+												</a>
+											</td>
+											<%-- <span class = "dateField">
+												${currentMessage.getDate()}
+											</span> --%>
+							</tr>
+						</c:forEach>
+						
+					</table>
 				</c:if>
 			</div>
 			<div class = "warning">${warning}</div>
@@ -103,5 +109,6 @@
 	</div>
 	
 	<p><a href="http://validator.w3.org/check?uri=referer" class ="valid">Valid XHTML?</a></p>
+	<p><a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS?</a></p>
 </body>
 </html>

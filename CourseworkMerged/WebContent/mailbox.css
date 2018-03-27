@@ -17,72 +17,33 @@ p{
 
 
 /* Forms --------------------------------------------------------------------------------------- */
-form label {
-	float: left;
-	width: 200px;
-	margin: 3px 0px 0px 0px;
-}
-
-form input {
-	margin: 3px 3px 0px 0px;
-	border: 1px #999 solid;
-}
-
-form input.sansLabel {
-	margin-left: 200px;
-	border-radius: 20px;
-}
-
-form .requis {
-	color: #c00;
-}
-
-form .erreur {
-	color : #f00
-}
-
-form .succes {
-
-    color: #090;
-
-}
-
-form textarea {
-    width: 80%;
-    height: 80%;
-    resize: none;
-    overflow: auto;
-    
-    max-height:250px; 
-    min-height:100px; 
-}
-
-
 /* mailbox.css  */
-span.fromField {
-	display: inline-block;
+table { 
+	resize:both;
+	overflow:auto;
+}
+
+td.fromField {
 	width: 25%;
 	vertical-align: top;
 }
 
-span.toField {
-	display: inline-block;
+td.toField {
 	width: 25%;
 	vertical-align: top;
 }
 
-span.subjectField {
-	display: inline-block;
+td.subjectField {
 	width: 35%;
 	vertical-align: top;
 }
 
-div.l0 {
+tr.l0 {
 	background-color: #ffffff;
 	padding: 4px;
 }
 
-div.l1 {
+tr.l1 {
 	background-color: #eeeeee;
 	padding: 4px;
 }
@@ -133,7 +94,7 @@ div.thumbnail img {
 
 /* Contents */
 
-div.emailListItem:hover {
+tr:hover {
 	background-color:#9EC5FE;
 	color: black;
 }
@@ -152,6 +113,7 @@ div.emailListItem:hover {
 
  a:link {
 color: #204a87;
+text-decoration: none;
 }
 a:visited {
 color: #729fcf;
@@ -163,6 +125,7 @@ color: #062562;
 
 a.valid {
 	color: #006300;
+	text-decoration: none;
 }
 a.valid:hover {
 	color: #004500;

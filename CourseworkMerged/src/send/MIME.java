@@ -16,7 +16,10 @@ public class MIME {
 	//
 	private String contentTypeFile;
 	
-	//for an image named picture.jpg
+	/**
+	 * Deprecated
+	 * 
+	 */
 	public MIME(){
 		this.version = "MIME-Version: 1.0";
 		this.type = "Content-Type:multipart/mixed";
@@ -27,6 +30,12 @@ public class MIME {
 		this.contentDisposition = "Content-Disposition:attachment;filename=\"picture.jpg";		
 	}
 	
+	/**
+	 * Constructor of a MIME message 
+	 * 
+	 * @param contentType
+	 * @param fileName
+	 */
 	public MIME(String contentType, String fileName){
 		this.version = "MIME-Version: 1.0";
 		this.type = "Content-Type:multipart/mixed";
@@ -37,7 +46,13 @@ public class MIME {
 		this.contentDisposition = "Content-Disposition:attachment;filename=\""+fileName+"\"";	
 	}
 		
-	
+	/**
+	 * Encode the input file submit by the user into a string (b64)
+	 * 
+	 * @param inputFile
+	 * @return stringEncoded
+	 * @throws Exception
+	 */
 	public String encodeFile(String inputFile) throws Exception {		
 		String stringEncoded = "";
 		int len = (int) (new File(inputFile)).length();
