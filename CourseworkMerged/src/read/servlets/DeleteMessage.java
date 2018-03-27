@@ -14,7 +14,7 @@ import read.imap.StatusNoException;
 import utility.ServletUtils;
 
 /**
- * Servlet implementation class DeleteMessage
+ * Deletes a message
  */
 public class DeleteMessage extends HttpServlet {
 	private static final long serialVersionUID = 1L;

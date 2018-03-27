@@ -11,7 +11,16 @@ import org.apache.commons.codec.net.QuotedPrintableCodec;
 import read.mime.MimeEntry;
 import read.mime.MimeMessage;
 
+/**
+ * Provides methods for common operations on mail headers
+ */
 public class HeaderUtils {
+	/**
+	 * Pulls out attributes pertaining to summary information from a header and puts 
+	 * them in the destination MimeMessage
+	 * @param destination the MimeMessage whose attributes to set
+	 * @param source the header from which to extract the data
+	 */
 	public static void parseFetchedSummaryHeaders(MimeMessage destination, String source) {
 		String currentHeader = source.trim();
 		//some responses seem to have multiple headers on one line
@@ -277,6 +286,12 @@ public class HeaderUtils {
 		return str;
 	}
 
+	/**
+	 * Pulls out headers from pertaining to MIME part and puts them in
+	 * the given MimeEntry
+	 * @param destination the MimeEntry whose attributes to set
+	 * @param source the header
+	 */
 	public static void parseFetchedContentHeaders(MimeEntry destination, 
 			String source) {
 		String currentHeader = source.trim();

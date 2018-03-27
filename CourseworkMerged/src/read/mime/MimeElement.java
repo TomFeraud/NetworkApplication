@@ -9,22 +9,38 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.net.QuotedPrintableCodec;
 
 
+/**
+ * An implementation of MimeEntry for storing actual message content
+ */
 public class MimeElement extends MimeEntry {
+	/**
+	 * Add a line to the element content
+	 * @param str the line to add
+	 * @return
+	 */
 	public synchronized boolean addLine(String str) {
 		return content.add(str);
 	}
 	
+	/**
+	 * Set the element content
+	 * @param content the new content
+	 */
 	public synchronized void setContent(ArrayList<String> content) {
 		this.content = content;
 	}
 	
+	/**
+	 * Returns the the raw element content
+	 * @return the raw element content
+	 */
 	public synchronized ArrayList<String> getContent() {
 		return content;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Returns the decoded element content
+	 * @return the decoded element content
 	 * 
 	 * @https://www.javaworld.com/article
 	 * /3240006/java-language/
@@ -37,19 +53,24 @@ public class MimeElement extends MimeEntry {
 		//if base64 encoding has been used, decode it first
 		if (encoding.toLowerCase().equals("base64")) {
 			System.out.println("decoding base64");
+			//convert the ArrayList into a String
 			for (String line : content) {
 				build.append(line);
 			}
 			
+			//assign the content to str
 			str = build.toString();
 			
+			//get the decoder
 			Base64.Decoder decoder = Base64.getMimeDecoder();
+			//decode the element content
 			byte[] decoded = decoder.decode(str);
 			try {
+				//convert bytes to a String
 				str = new String(decoded, "UTF-8");
 
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
+				//show failures
 				str = "<<Cannot decode Base64>>";
 			}
 			
@@ -99,8 +120,9 @@ public class MimeElement extends MimeEntry {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Return the element content as a byte array.
+	 * If needed, the content is first decoded.
+	 * @return the content as a decoded byte array
 	 * 
 	 * @https://www.javaworld.com/article
 	 * /3240006/java-language/

@@ -4,7 +4,12 @@ import java.util.ArrayList;
 
 import utility.HeaderUtils;
 
+/**
+ * Represents a list of MIME parts
+ * Supports nesting
+ */
 public class MimeEntryList extends MimeEntry {
+	//the list of entries contained in this list
 	ArrayList<MimeEntry> entries;
 
 	//the level of nesting, with 0 being root
@@ -19,10 +24,21 @@ public class MimeEntryList extends MimeEntry {
 		this(body, 0);
 	}
 
+	/**
+	 * Returns the level of nesting
+	 * @return the level of nesting
+	 */
 	public synchronized int getLevel() {
 		return level;
-	}
+	}	
 	
+	/**
+	 * Populates the list from raw content, 
+	 * breaking it up into parts represented as
+	 * MimeEntry(s). These can be either MimeElements or nested 
+	 * MimeEntryLists.
+	 * @param body the content to parse
+	 */
 	public synchronized void parseMultiPart(ArrayList<String> body) {
 		entries = new ArrayList<MimeEntry>();
 		MimeElement currentEntry = null;
@@ -171,6 +187,12 @@ public class MimeEntryList extends MimeEntry {
 		return entries;
 	}
 	
+	/**
+	 * Returns the details of this MimeEntryList, including the its tier
+	 * (the level of nesting)
+	 * 
+	 * @return details as a String
+	 */
 	public synchronized String toString() {
 		if(level == 0)
 			return "type: " + contentMajor + " / " + contentMinor + ", number of "

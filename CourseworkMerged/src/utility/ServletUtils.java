@@ -6,7 +6,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Provides methods for common Servlet operations
+ */
 public class ServletUtils {
+	/**
+	 * Redirects a request to the login page
+	 * @param request
+	 * @param response
+	 */
 	public static void redirectToLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
@@ -20,6 +28,11 @@ public class ServletUtils {
 		}
 	}
 	
+	/**
+	 * Redirects a request to display the message box
+	 * @param request
+	 * @param response
+	 */
 	public static void redirectToInbox(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {

@@ -14,7 +14,7 @@ import read.imap.StatusNoException;
 import utility.ServletUtils;
 
 /**
- * Servlet implementation class Logout
+ * Logs the user out
  */
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;

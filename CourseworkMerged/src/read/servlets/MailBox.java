@@ -17,7 +17,7 @@ import read.imap.StatusNoException;
 import read.mime.MimeMessage;
 
 /**
- * Servlet implementation class MailBox
+ * Displays the contents of a mailbox
  */
 public class MailBox extends HttpServlet {
 	private static final long serialVersionUID = 1L;

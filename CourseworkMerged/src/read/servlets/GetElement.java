@@ -16,7 +16,7 @@ import read.mime.MimeElement;
 import read.mime.MimeMessage;
 
 /**
- * Servlet implementation class GetElement
+ * Returns an elemental MIME part
  */
 public class GetElement extends HttpServlet {
 	private static final long serialVersionUID = 1L;

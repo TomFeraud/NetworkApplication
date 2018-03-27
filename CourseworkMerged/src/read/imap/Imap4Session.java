@@ -15,29 +15,43 @@ import read.mime.MimeMessage;
 import utility.HeaderUtils;
 import utility.StringUtils;
 
+/**
+ * Represents the an IMAP4Session and its state
+ */
 public class Imap4Session {
-	String url;
-	int port;
-	String username;
-	String password;
-	SSLSocket sock;
-	BufferedReader read;
-	InputStream in;
-	OutputStream write;
+	String url; //server URL
+	int port;	//server port
+	String username;	//credentials
+	String password;	//credentials
+	SSLSocket sock;		//represents the endpoint of an SSL connection
+	BufferedReader read; 	//for reading input from server
+	InputStream in;		//the receiving data from IMAP server
+	OutputStream write;	//for sending data to IMAP server
 	int sessionMessageNo = 0; //message id to track conversation thread
-	String sessionMessageCode = "mssgNo~#_=_";
+	String sessionMessageCode = "mssgNo~#_=_";	//ID to keep track of the dialogue
 	
 	//list of available mail boxes
 	ArrayList<String> mailBoxes;
 	
 	//current mailbox data
 	int messageCount = 0;
+	
+	//a list of messages
 	HashMap<Integer, MimeMessage> messageSummaries;
 	
-		public Imap4Session(String url) {
+	/**
+	 * Constructs a new IMAP4Session with the default port
+	 * @param url the address of the IMAP server
+	 */
+	public Imap4Session(String url) {
 		this(url, 993);
 	}
 	
+	/**
+	 * Constructs a new IMAP4Session
+	 * @param url the address of the IMAP server
+	 * @param port the port of the IMAP server
+	 */
 	public Imap4Session(String url, int port) {
 		this.url = url;
 		this.port = port;
@@ -51,6 +65,12 @@ public class Imap4Session {
 		return messageCount;
 	}
 	
+	/**
+	 * Connects to the server
+	 * @throws StatusBadException
+	 * @throws StatusNoException
+	 * @throws IOException
+	 */
 	public synchronized void connect() throws 
 			StatusBadException, StatusNoException,
 			IOException {
@@ -62,20 +82,28 @@ public class Imap4Session {
 		
 		System.out.println("Creating socket for: " + url + ":" + port);
 		
+		//setup an SSL connection to the server
 		sock = (SSLSocket) f.createSocket(url, port);
+		
+		//get InputStream and Reader
 		in = sock.getInputStream();
 		read = new BufferedReader(
 				new InputStreamReader(in));
 		
+		//get OutputStream to send bytes to server
 		write = sock.getOutputStream();
 		
+		//read the first line
 		String inLine = read.readLine();
 		
+		//get the status from the line
 		String status = inLine.split(" ")[1];
 		
+		//check status
 		switch(status) {
 			case "OK":
 				return;
+			//throw the relevant exceptions
 			case "BAD":
 				throw new StatusBadException("");
 			case "NO":
@@ -83,18 +111,32 @@ public class Imap4Session {
 		}
 	}
 
+	/**
+	 * Attempts a login with the supplied credentials
+	 * @param username
+	 * @param password
+	 * @throws StatusBadException
+	 * @throws StatusNoException
+	 * @throws IOException
+	 */
 	public synchronized void login(String username, String password) 
 			throws StatusBadException, StatusNoException, 
 			IOException {
+		//create message to attempt to login
 		String lineOut = sessionMessageCode + sessionMessageNo + 
 				" LOGIN " + username + " " + password + "\r\n";
+		
+		//increment session message no for the next message
 		sessionMessageNo++;
 		
+		//store credentials in instance
 		this.username = username;
 		this.password = password;
 
+		//send the login message
 		write.write(lineOut.getBytes());
 		
+		//get the response
 		String inLine = read.readLine();
 		
 		//throw errors if needed, or just return
@@ -114,8 +156,10 @@ public class Imap4Session {
 	 */
 	public synchronized void processStatusCode(String inLine) throws 
 	StatusNoException, StatusBadException {
+		//get the part of the String after the first space
 		String status = inLine.split(" ")[1];
 		
+		//throw relevant exceptions if the status is not OK
 		switch(status) {
 		case "OK":
 			return;
@@ -153,12 +197,17 @@ public class Imap4Session {
 	 */
 	public synchronized void updateMailBoxes() throws
 			StatusNoException, StatusBadException, IOException {
+		//create the LIST message
 		String lineOut = sessionMessageCode + sessionMessageNo + " LIST \"\" \"*\"\r\n";
 		sessionMessageNo++;
+		
+		//allocate a new ArrayList<String> for the list of mailboxes
 		mailBoxes = new ArrayList<String>();
 		
+		//send the LIST message
 		write.write(lineOut.getBytes());
 		
+		//read the first line
 		String inLine = read.readLine();
 		
 		//loop until status whose ID matches this initiating
@@ -201,16 +250,28 @@ public class Imap4Session {
 		return mailBoxes;
 	}
 	
+	/**
+	 * Sets the current mailbox to the one provided
+	 * @param mailBox the mailbox to select
+	 * @throws StatusNoException
+	 * @throws StatusBadException
+	 * @throws IOException
+	 */
 	public synchronized void selectMailBox(String mailBox) 
 			throws StatusNoException, StatusBadException, IOException {
+		//create the SELECT message
 		String lineOut = sessionMessageCode + sessionMessageNo + " SELECT \"" + mailBox + "\"\r\n";
 		sessionMessageNo++;
 		
+		//send the SELECT message
 		write.write(lineOut.getBytes());
 		
 		String inLine;
+		//read the first line
 		inLine = read.readLine(); 
 
+		//loop until status whose ID matches this initiating
+		//sessionMessageNo is returned
 		while(!checkIfReturned(inLine)) {
 			
 			//if line states number of existing messages, extract data
@@ -226,23 +287,39 @@ public class Imap4Session {
 		processStatusCode(inLine);
 	}
 	
+	/**
+	 * Get the details for a range of emails in the current inbox
+	 * @param start the first email in the range
+	 * @param end the last email in the range
+	 * @throws StatusNoException
+	 * @throws StatusBadException
+	 * @throws IOException
+	 */
 	public synchronized void fetchMessageSummaries(int start, int end)
 			throws StatusNoException, StatusBadException, IOException {
+		//construct FETCH request
 		String lineOut = sessionMessageCode + sessionMessageNo + " FETCH " + start
 				+ ":" + end + " (body[header.fields (subject date from to content-type flags)])\r\n";
 		
 		sessionMessageNo++;
+		
+		//allocate a new new HashMap<Integer, MimeMessage>() for the messages
 		messageSummaries = new HashMap<Integer, MimeMessage>();
 		
+		//send the FETCH request
 		write.write(lineOut.getBytes());
 		
+		//read the first line
 		String inLine = read.readLine();
 		String[] parts;
 		
 		int currentId;
 		MimeMessage currentMessage = null;
 
+		//loop until status whose ID matches this initiating
+		//sessionMessageNo is returned
 		while(!checkIfReturned(inLine)) {
+			//split the line into parts demarcated by a space
 			parts = inLine.split(" ");
 			System.out.println("getting summaries: " + inLine);
 			
@@ -280,18 +357,21 @@ public class Imap4Session {
 	 */
 	public synchronized void fetchMessageBody(MimeMessage message) 
 			throws StatusNoException, StatusBadException, IOException {
+		//create FETCH request for a whole message
 		String lineOut = sessionMessageCode + sessionMessageNo + " FETCH " + message.getId()
 				+ " (body[])\r\n";
 		
 		sessionMessageNo++;
 
+		//send the request for the whole message
 		write.write(lineOut.getBytes());
 		
 		String inLine = read.readLine();
 		//list will be parsed in order so used linked list
 		ArrayList<String> content = new ArrayList<String>();
 		
-
+		//loop until status whose ID matches this initiating
+		//sessionMessageNo is returned
 		while(!checkIfReturned(inLine)) {
 			inLine = inLine.trim();
 			System.out.println("> " + inLine);
@@ -304,6 +384,7 @@ public class Imap4Session {
 			inLine = read.readLine();
 		} 
 		
+		//construct a MimeEntryList from the raw content
 		MimeEntryList mimeContent = 
 				new MimeEntryList(content);
 		
@@ -314,21 +395,34 @@ public class Imap4Session {
 		processStatusCode(inLine);
 	}
 	
+	/**
+	 * Set a flag on a message
+	 * @param id the message to flag
+	 * @param flag the flag to set
+	 * @throws StatusNoException
+	 * @throws StatusBadException
+	 * @throws IOException
+	 */
 	public synchronized void addFlag(int id, String flag) throws StatusNoException, 
 		StatusBadException, IOException {
+		//construct a store request to set the given flag in the given message
 		String lineOut = sessionMessageCode + sessionMessageNo + " STORE " + id
 				+ " +FLAGS (\\" + flag + ")\r\n";
 		
 		System.out.println("Sending message: " + lineOut);
 		
+		//send the message
 		write.write(lineOut.getBytes());
 		
 		String inLine;
+		
+		//read the first line
 		inLine = read.readLine(); 
 		
 		sessionMessageNo++;
 		
-
+		//loop until status whose ID matches this initiating
+		//sessionMessageNo is returned
 		while(!checkIfReturned(inLine)) {
 			
 			System.out.println("Deleting: " + inLine);
@@ -339,49 +433,70 @@ public class Imap4Session {
 		processStatusCode(inLine);
 	}
 	
+	/**
+	 * Log the user out and end the session
+	 * @throws IOException
+	 * @throws StatusNoException
+	 * @throws StatusBadException
+	 */
 	public synchronized void logout() throws IOException, 
 	StatusNoException, StatusBadException {
+		//construct LOGOUT request
 		String lineOut = sessionMessageCode + sessionMessageNo + " LOGOUT\r\n";
-		
+	
 		System.out.println("Sending message: " + lineOut);
 		
+		//send the LOGOUT request
 		write.write(lineOut.getBytes());
 		
 		String inLine;
 		inLine = read.readLine(); 
 		
+		//increment message counters
 		sessionMessageNo++;
 		
-	
+		//loop until status whose ID matches this initiating
+		//sessionMessageNo is returned
 		while(!checkIfReturned(inLine)) {
 			
 			System.out.println("Logging out: " + inLine);
+			//read the next line
 			inLine = read.readLine(); 
+		}
+		
+		//throw errors if needed, or just return
+		processStatusCode(inLine);
+		
+		//close the connection
+		sock.close();
+		
+		System.out.println("Successfully logged out.");
 	}
 	
-	//throw errors if needed, or just return
-	processStatusCode(inLine);
-	
-	//close the connection
-	sock.close();
-	
-	System.out.println("Successfully logged out.");
-	}
-	
+	/**
+	 * Deletes all messages with the "Deleted" flag
+	 * @throws IOException
+	 * @throws StatusNoException
+	 * @throws StatusBadException
+	 */
 	public synchronized void expunge() throws IOException, 
 		StatusNoException, StatusBadException {
+		//create the EXPUNGE request
 		String lineOut = sessionMessageCode + sessionMessageNo + " EXPUNGE\r\n";
 		
 		System.out.println("Sending message: " + lineOut);
 		
+		//send the EXPUNGE request
 		write.write(lineOut.getBytes());
 		
 		String inLine;
+		//read the first line of reply
 		inLine = read.readLine(); 
 		
 		sessionMessageNo++;
 		
-
+		//loop until status whose ID matches this initiating
+		//sessionMessageNo is returned
 		while(!checkIfReturned(inLine)) {
 			
 			System.out.println("Deleting: " + inLine);
@@ -401,10 +516,18 @@ public class Imap4Session {
 		return str.startsWith(sessionMessageCode + (sessionMessageNo - 1) + " ");
 	}
 	
+	/**
+	 * Return the message summaries fetched by fetchMessageSummaries()
+	 * @return
+	 */
 	public synchronized HashMap<Integer, MimeMessage> getMessageSummaries() {
 		return messageSummaries;
 	}
 	
+	/**
+	 * Close the SSL connection
+	 * @throws IOException
+	 */
 	public synchronized void close() throws IOException {
 		sock.close();
 	}

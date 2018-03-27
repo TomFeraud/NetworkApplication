@@ -23,7 +23,7 @@ import read.mime.MimeEntryList;
 import read.mime.MimeMessage;
 
 /**
- * Servlet implementation class ViewMail
+ * Displays the contents of an email
  */
 public class ViewMail extends HttpServlet {
 	private static final long serialVersionUID = 1L;

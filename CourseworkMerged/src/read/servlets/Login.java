@@ -14,7 +14,7 @@ import read.imap.StatusBadException;
 import read.imap.StatusNoException;
 
 /**
- * Servlet implementation class Login
+ * Receives credentials and logs in after creating an IMAP4Session and storing it in the HTTPSession
  */
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
